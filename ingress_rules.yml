@@ -1,0 +1,60 @@
+#kams
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  namespace: monitoring
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: alert.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: / ## what do we mean by thatt?
+        backend:
+          service:
+            name: my-prometheus-alertmanager
+            port:
+              number: 9093
+  - host: prometheus.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: my-prometheus-server 
+            port:
+              number: 80
+  - host: pushgateway.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: my-prometheus-prometheus-pushgateway
+            port:
+              number: 9091
+  - host: statemetrics.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: my-prometheus-kube-state-metrics
+            port:
+              number: 8080
+  - host: grafana.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: my-grafana
+            port:
+              number: 80
