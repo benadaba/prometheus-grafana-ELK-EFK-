@@ -1,0 +1,20 @@
+#kams
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  namespace: efk
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: kibana.datapandasconsulting.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: / 
+        backend:
+          service:
+            name: kibana-kibana
+            port:
+              number: 5601
